@@ -1,5 +1,6 @@
 ruleset temperature_store{
   meta {
+    use module wovyn_base
     shares __testing, pragma, temperatures, threshold_violations, inrange_temperatures
     provides pragma
   }
@@ -13,7 +14,7 @@ ruleset temperature_store{
                               {"domain": "sensor", "type": "reading_reset"} ] }
 
     clear_temperatures = []
-    threshold_temperature = 71
+
     clear_threshold_violations = []
 
     temperatures = function() {
@@ -25,7 +26,7 @@ ruleset temperature_store{
     }
 
     inrange_temperatures = function() {
-      ent:temperatures.filter(function(x){x{"temperature"} < threshold_temperature});
+      ent:temperatures.filter(function(x){x{"temperature"} < wovyn_base:get_temp_threshold()});
     }
   }
 
